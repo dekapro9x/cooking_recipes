@@ -1,7 +1,9 @@
 import 'package:dinhhaitrieu/core/DI/injection.dart';
+import 'package:dinhhaitrieu/pages/app_intro/app_intro_bloc/app_intro_bloc.dart';
 import 'package:dinhhaitrieu/pages/app_intro/app_intro_screen.dart';
 import 'package:dinhhaitrieu/pages/home/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +21,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: AppIntroScreen(),
+      home: BlocProvider(
+        create: (_) => AppIntroBloc(),
+        child: AppIntroScreen(),
+      ),
     );
   }
 }

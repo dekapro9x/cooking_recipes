@@ -3,32 +3,53 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'app_intro_bloc/app_intro_bloc.dart';
 import '../home/home_screen.dart';
 
-class AppIntroScreen extends StatelessWidget {
+class AppIntroScreen extends StatefulWidget {
   const AppIntroScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AppIntroBloc(),
-      child: const AppIntroView(),
-    );
-  }
+  State<AppIntroScreen> createState() => _AppIntroScreenState();
 }
 
-class AppIntroView extends StatelessWidget {
-  const AppIntroView({super.key});
+class _AppIntroScreenState extends State<AppIntroScreen> {
+  late final PageController _pageController;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: BlocBuilder<AppIntroBloc, AppIntroState>(
+        child: BlocConsumer<AppIntroBloc, AppIntroState>(
+          listener: (context, state) {
+            final target = state.currentPage;
+            final current = _pageController.hasClients
+                ? _pageController.page?.round() ?? 0
+                : 0;
+            if (target != current && _pageController.hasClients) {
+              _pageController.animateToPage(
+                target,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut,
+              );
+            }
+          },
           builder: (context, state) {
             return Column(
               children: [
                 Expanded(
                   child: PageView.builder(
+                    controller: _pageController,
                     itemCount: 4,
                     onPageChanged: (index) {
                       context.read<AppIntroBloc>().add(PageChangedEvent(index));
@@ -46,90 +67,88 @@ class AppIntroView extends StatelessWidget {
       ),
     );
   }
+}
 
-  Widget _buildIntroPage(int index) {
-    switch (index) {
-      case 0:
-        return _IntroPageWidget(
-          title: 'Chào mừng đến với ứng dụng',
-          description:
-              'Khám phá thế giới ẩm thực đa dạng với công thức nấu ăn tuyệt vời',
-          imagePath: 'assets/images/background.png',
-        );
-      case 1:
-        return _IntroPageWidget(
-          title: 'Khám phá công thức',
-          description: 'Hàng ngàn công thức nấu ăn từ khắp nơi trên thế giới',
-          imagePath: 'assets/images/banner1.jpg',
-        );
-      case 2:
-        return _IntroPageWidget(
-          title: 'Danh mục đa dạng',
-          description:
-              'Tìm kiếm công thức theo danh mục, nguyên liệu và sở thích của bạn',
-          imagePath: 'assets/images/avata.png',
-        );
-      case 3:
-        return _IntroPageWidget(
-          title: 'Bắt đầu ngay!',
-          description: 'Sẵn sàng khám phá và nấu những món ăn ngon',
-          imagePath: 'assets/images/background.png',
-        );
-      default:
-        return Container();
-    }
+Widget _buildIntroPage(int index) {
+  switch (index) {
+    case 0:
+      return _IntroPageWidget(
+        title: 'Chào mừng đến với ứng dụng',
+        description:
+            'Khám phá thế giới ẩm thực đa dạng với công thức nấu ăn tuyệt vời',
+        imagePath: 'assets/images/background.png',
+      );
+    case 1:
+      return _IntroPageWidget(
+        title: 'Khám phá công thức',
+        description: 'Hàng ngàn công thức nấu ăn từ khắp nơi trên thế giới',
+        imagePath: 'assets/images/banner1.jpg',
+      );
+    case 2:
+      return _IntroPageWidget(
+        title: 'Danh mục đa dạng',
+        description:
+            'Tìm kiếm công thức theo danh mục, nguyên liệu và sở thích của bạn',
+        imagePath: 'assets/images/avata.png',
+      );
+    case 3:
+      return _IntroPageWidget(
+        title: 'Bắt đầu ngay!',
+        description: 'Sẵn sàng khám phá và nấu những món ăn ngon',
+        imagePath: 'assets/images/background.png',
+      );
+    default:
+      return Container();
   }
+}
 
-  Widget _buildBottomNavigation(BuildContext context, AppIntroState state) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          TextButton(
-            onPressed: () {
+Widget _buildBottomNavigation(BuildContext context, AppIntroState state) {
+  return Padding(
+    padding: const EdgeInsets.all(20.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        TextButton(
+          onPressed: () {
+            Navigator.of(context).pushReplacement<void, void>(
+              MaterialPageRoute<void>(builder: (context) => const HomeScreen()),
+            );
+          },
+          child: const Text('Bỏ qua'),
+        ),
+        Row(
+          children: List.generate(
+            4,
+            (index) => Container(
+              margin: const EdgeInsets.symmetric(horizontal: 4),
+              width: state.currentPage == index ? 12 : 8,
+              height: state.currentPage == index ? 12 : 8,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: state.currentPage == index
+                    ? Colors.blue
+                    : Colors.grey.shade300,
+              ),
+            ),
+          ),
+        ),
+        ElevatedButton(
+          onPressed: () {
+            if (state.isLastPage) {
               Navigator.of(context).pushReplacement<void, void>(
                 MaterialPageRoute<void>(
                   builder: (context) => const HomeScreen(),
                 ),
               );
-            },
-            child: const Text('Bỏ qua'),
-          ),
-          Row(
-            children: List.generate(
-              4,
-              (index) => Container(
-                margin: const EdgeInsets.symmetric(horizontal: 4),
-                width: state.currentPage == index ? 12 : 8,
-                height: state.currentPage == index ? 12 : 8,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: state.currentPage == index
-                      ? Colors.blue
-                      : Colors.grey.shade300,
-                ),
-              ),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              if (state.isLastPage) {
-                Navigator.of(context).pushReplacement<void, void>(
-                  MaterialPageRoute<void>(
-                    builder: (context) => const HomeScreen(),
-                  ),
-                );
-              } else {
-                context.read<AppIntroBloc>().add(NextPageEvent());
-              }
-            },
-            child: Text(state.isLastPage ? 'Bắt đầu' : 'Tiếp theo'),
-          ),
-        ],
-      ),
-    );
-  }
+            } else {
+              context.read<AppIntroBloc>().add(NextPageEvent());
+            }
+          },
+          child: Text(state.isLastPage ? 'Bắt đầu' : 'Tiếp theo'),
+        ),
+      ],
+    ),
+  );
 }
 
 class _IntroPageWidget extends StatelessWidget {

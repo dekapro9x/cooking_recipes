@@ -1,6 +1,6 @@
 import 'package:dinhhaitrieu/core/theme/colorSystem.dart';
 import 'package:dinhhaitrieu/pages/home/home_screen.dart';
-import 'package:dinhhaitrieu/pages/search/searchScreen.dart';
+import 'package:dinhhaitrieu/pages/search/search_screen.dart';
 import 'package:flutter/material.dart';
 
 class MainShell extends StatefulWidget {

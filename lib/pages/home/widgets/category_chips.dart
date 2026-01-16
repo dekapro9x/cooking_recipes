@@ -1,8 +1,8 @@
 import 'package:dinhhaitrieu/core/DI/injection.dart';
 import 'package:dinhhaitrieu/core/theme/colorSystem.dart';
-import 'package:dinhhaitrieu/features/presentation/bloc/categoriesBloc/categories_bloc.dart';
-import 'package:dinhhaitrieu/features/presentation/bloc/categoriesBloc/categories_event.dart';
-import 'package:dinhhaitrieu/features/presentation/bloc/categoriesBloc/categories_state.dart';
+import 'package:dinhhaitrieu/features/presentation/bloc/home/categoriesBloc/categories_bloc.dart';
+import 'package:dinhhaitrieu/features/presentation/bloc/home/categoriesBloc/categories_event.dart';
+import 'package:dinhhaitrieu/features/presentation/bloc/home/categoriesBloc/categories_state.dart';
 import 'package:dinhhaitrieu/features/presentation/bloc/meal_search_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

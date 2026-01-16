@@ -1,6 +1,6 @@
 import 'package:dinhhaitrieu/features/domain/usecases/get_categories.dart';
-import 'package:dinhhaitrieu/features/presentation/bloc/categoriesBloc/categories_event.dart';
-import 'package:dinhhaitrieu/features/presentation/bloc/categoriesBloc/categories_state.dart';
+import 'package:dinhhaitrieu/features/presentation/bloc/home/categoriesBloc/categories_event.dart';
+import 'package:dinhhaitrieu/features/presentation/bloc/home/categoriesBloc/categories_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {

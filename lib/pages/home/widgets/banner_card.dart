@@ -1,14 +1,20 @@
-import 'package:dinhhaitrieu/pages/detail/detailScreen.dart';
+import 'package:dinhhaitrieu/pages/meal_detail/meal_detail_screen.dart';
 import 'package:flutter/material.dart';
 
 class BannerCard extends StatelessWidget {
   final String imagePath;
   final String mealId;
+  final String? title;
+  final int? timeCooking;
+  final String? authorName;
 
   const BannerCard({
     super.key,
     required this.imagePath,
     this.mealId = '52772', // Default ID
+    this.title,
+    this.timeCooking,
+    this.authorName,
   });
 
   @override
@@ -35,11 +41,19 @@ class BannerCard extends StatelessWidget {
               ),
               child: Stack(
                 children: [
-                  Image.asset(
+                  Image.network(
                     imagePath,
                     height: 140,
                     width: 206,
                     fit: BoxFit.cover,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Container(
+                        height: 140,
+                        width: 206,
+                        color: Colors.grey[300],
+                        child: const Icon(Icons.image, color: Colors.grey),
+                      );
+                    },
                   ),
 
                   Positioned(
@@ -83,12 +97,12 @@ class BannerCard extends StatelessWidget {
               padding: const EdgeInsets.all(10),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Row(
                     children: [
                       Expanded(
                         child: Text(
-                          "1 tiếng 20 phút",
+                          _formatTimeCooking(timeCooking),
                           style: TextStyle(color: Colors.blue, fontSize: 12),
                         ),
                       ),
@@ -97,7 +111,7 @@ class BannerCard extends StatelessWidget {
                   ),
                   SizedBox(height: 4),
                   Text(
-                    "Cách chiên trứng một cách cung phu",
+                    title ?? "Cách chiên trứng một cách cung phu",
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(fontWeight: FontWeight.w700),
@@ -112,7 +126,7 @@ class BannerCard extends StatelessWidget {
                       SizedBox(width: 6),
                       Expanded(
                         child: Text(
-                          "Đinh Trọng Phúc",
+                          authorName ?? "Đinh Trọng Phúc",
                           style: TextStyle(color: Colors.orange, fontSize: 12),
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -126,5 +140,21 @@ class BannerCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _formatTimeCooking(int? minutes) {
+    if (minutes == null) return "Không xác định";
+
+    if (minutes < 60) {
+      return "$minutes phút";
+    } else {
+      final hours = minutes ~/ 60;
+      final remainingMinutes = minutes % 60;
+      if (remainingMinutes == 0) {
+        return "$hours tiếng";
+      } else {
+        return "$hours tiếng $remainingMinutes phút";
+      }
+    }
   }
 }

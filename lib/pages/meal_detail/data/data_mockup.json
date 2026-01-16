@@ -1,0 +1,48 @@
+{
+    "id": "52772",
+    "name": "Teriyaki Chicken Casserole",
+    "category": "Chicken",
+    "area": "Japanese",
+    "image": "https://www.themealdb.com/images/media/meals/wvpsxx1468256321.jpg",
+    "description": "Món gà Teriyaki thơm ngon, dễ làm, phù hợp cho bữa tối gia đình.",
+    "ingredients": [
+        {
+            "name": "Chicken breast",
+            "quantity": "500g"
+        },
+        {
+            "name": "Soy sauce",
+            "quantity": "120ml"
+        },
+        {
+            "name": "Brown sugar",
+            "quantity": "2 tbsp"
+        },
+        {
+            "name": "Garlic",
+            "quantity": "2 cloves"
+        },
+        {
+            "name": "Ginger",
+            "quantity": "1 tsp"
+        }
+    ],
+    "steps": [
+        "Làm nóng lò nướng ở 180°C.",
+        "Cắt gà thành miếng vừa ăn.",
+        "Trộn nước tương, đường nâu, tỏi và gừng.",
+        "Cho gà vào sốt, ướp trong 15 phút.",
+        "Cho gà vào khay nướng và nướng 25–30 phút.",
+        "Lấy ra, rắc mè và thưởng thức."
+    ],
+    "cookTime": 30,
+    "prepTime": 15,
+    "servings": 4,
+    "difficulty": "Easy",
+    "nutrition": {
+        "calories": 420,
+        "protein": "38g",
+        "fat": "12g",
+        "carbs": "32g"
+    }
+}
